@@ -1306,27 +1306,42 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.7.2.0/25  # Основная сеть Dify (диапазон IP от .1 до .126)
+        - subnet: 10.7.2.0/27
+
   ssrf_proxy_network:
     driver: bridge
+    internal: true
     ipam:
       config:
-        - subnet: 10.7.2.128/25  # Сеть для SSRF-прокси (диапазон IP от .129 до .254)
+        - subnet: 10.7.2.32/27
 
-  # shellctl control channel (agent_backend -> local_sandbox:5004).
-  # sandbox can access agent backend through this network, this is
-  # a known limitation.
-  #
-  # The agent runtime respects HTTP(S)_PROXY, but arbitrary code execution
-  # is still possible through the shellctl channel.
+  local_sandbox_proxy_network:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.7.2.64/27
+
   agent_sandbox_network:
     driver: bridge
     internal: true
+    ipam:
+      config:
+        - subnet: 10.7.2.96/27
+
   milvus:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.7.2.128/27
+
   opensearch-net:
     driver: bridge
     internal: true
+    ipam:
+      config:
+        - subnet: 10.7.2.160/27
+
 
 volumes:
   oradata:
